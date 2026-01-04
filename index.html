@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Drugs of Abuse – Memorization Quiz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body { font-family: Arial, sans-serif; background:#f4f4f4; margin:0; padding:20px; }
+h1 { text-align:center; }
+.quiz { max-width:900px; margin:auto; }
+.q { background:#fff; padding:15px; margin-bottom:12px; border-radius:8px; }
+.answers label { display:block; margin:6px 0; cursor:pointer; }
+button { margin-top:8px; padding:6px 12px; }
+.correct { color:green; font-weight:bold; }
+.incorrect { color:red; font-weight:bold; }
+.explain { margin-top:6px; font-size:0.9em; }
+</style>
+</head>
+
+<body>
+<h1>Drugs of Abuse – Memorization Quiz</h1>
+<div class="quiz" id="quiz"></div>
+
+<script>
+const quizData = [
+{
+q:"The three pharmacological classifications of drugs of abuse are:",
+a:["Narcotics, Alcohol, Stimulants","Depressants, Hallucinogens, Stimulants","Opioids, Marijuana, Cocaine","Stimulants, Sedatives, Narcotics"],
+c:1,
+e:"EPO 2: The three classifications are Depressants, Hallucinogens, and Stimulants."
+},
+{
+q:"Narcotics are primarily derived from which plant?",
+a:["Coca plant","Opium poppy plant","Cannabis plant","Ephedra plant"],
+c:1,
+e:"Narcotics (opioids) are derived from the opium poppy."
+},
+{
+q:"Which effect is MOST associated with narcotics?",
+a:["Dilated pupils","Hallucinations","Constricted (pinpoint) pupils","Increased heart rate"],
+c:2,
+e:"Narcotics cause CNS depression and constricted (pinpoint) pupils."
+},
+{
+q:"Which of the following is a narcotic depressant?",
+a:["Alcohol","Morphine","Ketamine","LSD"],
+c:1,
+e:"Morphine is a narcotic depressant derived from opium."
+},
+{
+q:"Which substance is MOST abused compared to all other drugs combined?",
+a:["Methamphetamine","Heroin","Alcohol","Marijuana"],
+c:2,
+e:"Alcohol is the most abused substance."
+},
+{
+q:"Barbiturates are best described as:",
+a:["Stimulants","Hallucinogens","Sedatives with alcohol-like effects","Narcotics"],
+c:2,
+e:"Barbiturates produce sedation similar to alcohol but without odor."
+},
+{
+q:"The two stimulant categories are:",
+a:["Meth & Cocaine","Natural & Synthetic","Cocaine & Amphetamines","Uppers & Downers"],
+c:2,
+e:"EPO 4: Cocaine compounds and Amphetamine compounds."
+},
+{
+q:"Which stimulant is water soluble and used as a topical anesthetic?",
+a:["Base cocaine","Methamphetamine","Cocaine HCL","Crack cocaine"],
+c:2,
+e:"Cocaine HCL is water soluble and constricts blood vessels."
+},
+{
+q:"Crack cocaine is:",
+a:["Injected","Snorted","Smoked only","Oral only"],
+c:2,
+e:"Base cocaine (crack) is insoluble and smoked."
+},
+{
+q:"Which stimulant is commonly known as 'ice'?",
+a:["Cocaine","Amphetamine","Methamphetamine","MDMA"],
+c:2,
+e:"Methamphetamine street name is ice."
+},
+{
+q:"Hallucinogens primarily cause:",
+a:["Sleep","Pain relief","Visual & auditory hallucinations","Muscle relaxation"],
+c:2,
+e:"Hallucinogens cause hallucinations and sensory distortion."
+},
+{
+q:"THC is the psychoactive ingredient in:",
+a:["LSD","Heroin","Cannabis","Ketamine"],
+c:2,
+e:"THC causes marijuana’s psychoactive effects."
+},
+{
+q:"Which hallucinogen can be absorbed through the skin?",
+a:["Mushrooms","LSD","Peyote","Cannabis"],
+c:1,
+e:"LSD can be absorbed through the skin."
+},
+{
+q:"PCP is dangerous because it causes:",
+a:["Pinpoint pupils","Pain immunity & psychosis","Sleep","Paralysis"],
+c:1,
+e:"PCP causes psychosis and high pain tolerance."
+},
+{
+q:"MDMA (Ecstasy) is classified as:",
+a:["Depressant","Hallucinogen only","Stimulant & hallucinogen","Narcotic"],
+c:2,
+e:"MDMA has both stimulant and hallucinogenic properties."
+},
+{
+q:"Which drug is commonly associated with date rape due to amnesia?",
+a:["Cocaine","GHB","Meth","LSD"],
+c:1,
+e:"GHB causes impaired judgment and amnesia."
+},
+{
+q:"Rohypnol is also known as:",
+a:["Ice","Roofies","Speed","Crack"],
+c:1,
+e:"Rohypnol is commonly called roofies."
+},
+{
+q:"Stimulant USE symptoms include:",
+a:["Slow breathing","Hyperstimulation and paranoia","Pinpoint pupils","Vomiting"],
+c:1,
+e:"Stimulants cause hyperactivity, paranoia, and increased vitals."
+},
+{
+q:"Stimulant WITHDRAWAL symptoms include:",
+a:["Mega-flu","Deep depression and agitation","Hallucinations","Seizures"],
+c:1,
+e:"Withdrawal causes depression, irritability, lethargy."
+},
+{
+q:"Depressant withdrawal is commonly called:",
+a:["Crash","Mega-flu","Psychosis","Flashbacks"],
+c:1,
+e:"Depressant withdrawal produces 'mega-flu' symptoms."
+},
+{
+q:"Marijuana withdrawal includes:",
+a:["Vomiting","Hallucinations","Insomnia and restlessness","Seizures"],
+c:2,
+e:"Marijuana withdrawal includes insomnia, restlessness, decreased appetite."
+}
+];
+
+const quiz = document.getElementById("quiz");
+
+quizData.forEach((q,i)=>{
+const div=document.createElement("div");
+div.className="q";
+div.innerHTML=`<b>Q${i+1}. ${q.q}</b><div class="answers"></div>
+<button onclick="check(${i})">Check</button>
+<div id="r${i}"></div>`;
+quiz.appendChild(div);
+
+q.a.forEach((ans,j)=>{
+div.querySelector(".answers").innerHTML+=
+`<label><input type="radio" name="q${i}" value="${j}"> ${ans}</label>`;
+});
+});
+
+function check(i){
+const sel=document.querySelector(`input[name="q${i}"]:checked`);
+const res=document.getElementById("r"+i);
+if(!sel){res.innerHTML="<span class='incorrect'>Select an answer</span>";return;}
+if(parseInt(sel.value)===quizData[i].c){
+res.innerHTML="<span class='correct'>Correct</span><div class='explain'>"+quizData[i].e+"</div>";
+}else{
+res.innerHTML="<span class='incorrect'>Incorrect</span><div class='explain'>"+quizData[i].e+"</div>";
+}
+}
+</script>
+</body>
+</html>
